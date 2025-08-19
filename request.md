@@ -47,30 +47,7 @@
 ## 数据存储设计
 ​
 ### 主要数据结构
-**users表**：存储用户的唯一标识和创建时间
-- id: UUID (主键，唯一用户标识)
-- created_at: timestamp (创建时间)
-- last_active: timestamp (最后活跃时间，用于活跃度分析)
 
-
-**training_sessions 表**：存储训练记录
-- id: UUID (主键，唯一用户标识)
-- user_id: UUID (外键，关联users.id)
-- mode: string (模式1或模式2)
-- kline_symbol: string (标的，如"TSLA")
-- kline_interval: string (周期，如"1d")
-- start_timestamp: timestamp (K线截取起点)
-- user_action: string (模式1：buy/sell/hold；模式2：up/down/flat)
-- actual_outcome: string (实际结果)
-- score: integer (得分，0-100)
-- is_wrong: boolean (是否错误，用于错题本)
-- created_at: timestamp (创建时间)
-
-​**mistakes表**：错题本
-- id: UUID (主键)
-- user_id: UUID (外键，关联users.id)
-- created_at: timestamp (创建时间)
-- session_id: UUID (外键，关联training_sessions.id)
 
 ### 数据关系说明
 ​
@@ -130,60 +107,6 @@
 - 进度：显示“第X/10题”，结束时弹出总结报告（正确率、得分）。
 
 ​
-3. **响应式适配**
-- Tailwind媒体查询：mobile-first（sm: 平板, md: 桌面）。
-- 移动端：全屏K线，简化按钮布局。
-- 桌面端：侧边统计面板，更多交互空间。
-- 测试：用Chrome DevTools/BrowserStack验证
-​
-## 实施步骤
-​
-### 1. 项目初始化与环境配置
-​
-```bash
-# 创建React.js项目
-npx create-react-app candle-quest-app --template typescript
-cd candle-quest-app
 
-# 安装依赖
-npm install @supabase/supabase-js uuid recharts axios
-npm install -D @types/uuid tailwindcss postcss autoprefixer
-
-# 配置Tailwind CSS
-npx tailwindcss init -p
-# 编辑tailwind.config.js
-content: ['./src/**/*.{js,ts,jsx,tsx}']
-# 编辑src/index.css
-@tailwind base; @tailwind components; @tailwind utilities;
-```
-​
-### 2. 数据库设置
-1. 创建Supabase项目
-2. 创建必要的数据表
-3. 设置适当的访问权限
-​
-### 3. 项目结构搭建
-​
-1. 创建基础目录结构
-2. 配置Supabase客户端
-3. 实现用户ID生成和管理功能
-​
-### 4. 组件开发
-- KlineChart：绘制烛台图，接受K线数据props。
-- TrainingPage：集成K线图、按钮、倒计时（useEffect）。
-- MistakesPage：列表+模态，支持笔记编辑。
-- StatsCard：显示用户统计（查询Supabase）。
-​
-### 5. 数据交互实现
-- ​拉取K线：从Alpha Vantage获取美股历史数据。
-- CRUD操作：Supabase插入/查询训练记录和错题。
-- 随机逻辑：前端Math.random()选择K线截点。
-
-​
-### 6. 优化与测试
-​
-1. 性能优化
-2. 跨设备测试
-3. 边缘情况处理
 ​
 ​
