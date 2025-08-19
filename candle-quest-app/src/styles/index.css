@@ -1,0 +1,52 @@
+/* 全局样式 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 导入页面级样式（使用 @layer components，顺序可被 Tailwind 正确合并）*/
+@import './mode2.css';
+
+/* 全局字体和基础样式 */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply antialiased;
+  }
+  
+  /* 自定义滚动条 */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full hover:bg-gray-400;
+  }
+}
+
+/* 全局组件样式 */
+@layer components {
+  /* 通用卡片样式 */
+  .card {
+    @apply bg-white rounded-xl shadow-lg border border-gray-100;
+  }
+  
+  /* 通用按钮样式 */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 
+           focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  /* 通用输入框样式 */
+  .input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg 
+           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+           transition-all duration-200;
+  }
+}
